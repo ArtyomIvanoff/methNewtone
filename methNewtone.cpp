@@ -1,4 +1,4 @@
-// methNewtone.cpp: определяет точку входа для консольного приложения.
+п»ї// methNewtone.cpp: РѕРїСЂРµРґРµР»СЏРµС‚ С‚РѕС‡РєСѓ РІС…РѕРґР° РґР»СЏ РєРѕРЅСЃРѕР»СЊРЅРѕРіРѕ РїСЂРёР»РѕР¶РµРЅРёСЏ.
 //
 
 #include "stdafx.h"
@@ -22,11 +22,11 @@ int _tmain(int argc, _TCHAR* argv[])
 	setlocale(LC_ALL, "Russian");
 	ifstream fin("input.txt");
 
-	//порядок уравнения
+	//РїРѕСЂСЏРґРѕРє СѓСЂР°РІРЅРµРЅРёСЏ
 	int n;
 	fin >> n;
 
-	//коэффиценты уравнения в порядке убывния степени, включая нули и перед нулевой степенью
+	//РєРѕСЌС„С„РёС†РµРЅС‚С‹ СѓСЂР°РІРЅРµРЅРёСЏ РІ РїРѕСЂСЏРґРєРµ СѓР±С‹РІРЅРёСЏ СЃС‚РµРїРµРЅРё, РІРєР»СЋС‡Р°СЏ РЅСѓР»Рё Рё РїРµСЂРµРґ РЅСѓР»РµРІРѕР№ СЃС‚РµРїРµРЅСЊСЋ
 	double *koefs = new double[n + 1];
 	for (int i = 0; i < n + 1; i++)
 		fin >> koefs[i];
@@ -37,7 +37,7 @@ int _tmain(int argc, _TCHAR* argv[])
 
 	showFunc(n, koefs);
 	do{
-		cout << "Введите точность: ";
+		cout << "Р’РІРµРґРёС‚Рµ С‚РѕС‡РЅРѕСЃС‚СЊ: ";
 		cin >> eps;
 	} while (eps <= 0);
 
@@ -81,11 +81,11 @@ void findAndSepRoots(int n, double* koefs, double eps) {
 			B = abs(koefs[i]);
 	}
 
-	//тогда модули всех корней строго больше r и нестрого меньше R
+	//С‚РѕРіРґР° РјРѕРґСѓР»Рё РІСЃРµС… РєРѕСЂРЅРµР№ СЃС‚СЂРѕРіРѕ Р±РѕР»СЊС€Рµ r Рё РЅРµСЃС‚СЂРѕРіРѕ РјРµРЅСЊС€Рµ R
 	double r = 1 / (1 + B / abs(koefs[n]));
 	double R = 1 + A / abs(koefs[0]);
 
-	cout << "Модули всех корней лежат между " << r << " и " << R << endl;
+	cout << "РњРѕРґСѓР»Рё РІСЃРµС… РєРѕСЂРЅРµР№ Р»РµР¶Р°С‚ РјРµР¶РґСѓ " << r << " Рё " << R << endl;
 	int k = 2;
 	segments = new double*[k];
 	for (int i = 0; i < n; i++)
@@ -99,12 +99,12 @@ void findAndSepRoots(int n, double* koefs, double eps) {
 
 	for (int i = 0; i < k; i++) {
 		if (func(n, koefs, segments[i][0]) * func(n, koefs, segments[i][1]) <= 0){
-			cout << "[" << segments[i][0] << " ; " << segments[i][1] << "], достаточное условие";
+			cout << "[" << segments[i][0] << " ; " << segments[i][1] << "], РґРѕСЃС‚Р°С‚РѕС‡РЅРѕРµ СѓСЃР»РѕРІРёРµ";
 			if (NewtConditions(n, koefs, segments[i])) {
-				cout << " - выполнено\n";
+				cout << " - РІС‹РїРѕР»РЅРµРЅРѕ\n";
 			}
 			else{
-				cout << " - не выполнено\n";
+				cout << " - РЅРµ РІС‹РїРѕР»РЅРµРЅРѕ\n";
 			}
 
 			methNewtone(n, koefs, segments[i], eps);
@@ -131,7 +131,7 @@ double* solveSqrEq(int n, double* koefs) {
 		}
 	}
 	else{
-		cout << "Данное уравнение не является квадратным\n";
+		cout << "Р”Р°РЅРЅРѕРµ СѓСЂР°РІРЅРµРЅРёРµ РЅРµ СЏРІР»СЏРµС‚СЃСЏ РєРІР°РґСЂР°С‚РЅС‹Рј\n";
 		return NULL;
 	}
 }
@@ -143,12 +143,12 @@ bool NewtConditions(int n, double* koefs, double* segment) {
 
 		double* rootsDiff = solveSqrEq(k, koefDiff);
 		if (rootsDiff != NULL) {
-			//если на отрезке есть нули производной
+			//РµСЃР»Рё РЅР° РѕС‚СЂРµР·РєРµ РµСЃС‚СЊ РЅСѓР»Рё РїСЂРѕРёР·РІРѕРґРЅРѕР№
 			if (intersects(rootsDiff[0], segment) || intersects(rootsDiff[1], segment))
 				return false;
 		}
 
-		//вторая производная у кубической функции - прямая
+		//РІС‚РѕСЂР°СЏ РїСЂРѕРёР·РІРѕРґРЅР°СЏ Сѓ РєСѓР±РёС‡РµСЃРєРѕР№ С„СѓРЅРєС†РёРё - РїСЂСЏРјР°СЏ
 		double* koefSecDiff = diff(k, koefDiff);
 		double rootSecDiff;
 
@@ -163,7 +163,7 @@ bool NewtConditions(int n, double* koefs, double* segment) {
 		return true;
 	}
  
-	cout << "\n Данное уравнение не является кубическим, поэтому непроверяемы условия сходимости/n";
+	cout << "\n Р”Р°РЅРЅРѕРµ СѓСЂР°РІРЅРµРЅРёРµ РЅРµ СЏРІР»СЏРµС‚СЃСЏ РєСѓР±РёС‡РµСЃРєРёРј, РїРѕСЌС‚РѕРјСѓ РЅРµРїСЂРѕРІРµСЂСЏРµРјС‹ СѓСЃР»РѕРІРёСЏ СЃС…РѕРґРёРјРѕСЃС‚Рё/n";
 	return false;
 }
 
@@ -211,7 +211,7 @@ void methNewtone(int n, double* koefs, double* segment, double eps) {
 
 	double xCur;
 	double xNext;
-	//т.к. первая и вторая производная на отрезке сохраняют знак, то проверяем в точке из отрезка
+	//С‚.Рє. РїРµСЂРІР°СЏ Рё РІС‚РѕСЂР°СЏ РїСЂРѕРёР·РІРѕРґРЅР°СЏ РЅР° РѕС‚СЂРµР·РєРµ СЃРѕС…СЂР°РЅСЏСЋС‚ Р·РЅР°Рє, С‚Рѕ РїСЂРѕРІРµСЂСЏРµРј РІ С‚РѕС‡РєРµ РёР· РѕС‚СЂРµР·РєР°
 	if (func(n - 1, koefDiff, segment[0]) * func(n-2, koefSecDiff, segment[0]) > 0) {
 		xNext = segment[1];
 	}
@@ -231,5 +231,5 @@ void methNewtone(int n, double* koefs, double* segment, double eps) {
 		cout << " dist(xK, x(K+1))=" << setprecision(8) << length << endl;
 	} while (length >= eps);
 
-	cout << "Корень лежит рядом с " << setprecision(8) << xNext << endl;
+	cout << "РљРѕСЂРµРЅСЊ Р»РµР¶РёС‚ СЂСЏРґРѕРј СЃ " << setprecision(8) << xNext << endl;
 }
